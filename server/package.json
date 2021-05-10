@@ -4,6 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+        "@lespantsfancy/agency": "0.7.10",
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "express-ws": "^4.0.0",

@@ -1,20 +1,21 @@
 import express from "express";
 import expressWs from "express-ws";
+import Server, { QuickSetup as SetupWSServer } from "@lespantsfancy/agency/lib/modules/websocket/Server";
 
 const app = express();
 const port = 3001;
-// const wss = SetupWSServer(expressWs(app), {
-//     test: function(data) {
-//         console.log("Test")
-//         // console.log(this)
-//         console.log(...data)
-//     },
-//     bounce: function(data, { server }) {
-//         setTimeout(() => {
-//             server.sendToAll("bounce", ...data);
-//         }, 1000);
-//     },
-// });
+const wss = SetupWSServer(expressWs(app), {
+    // [ Server.Signal.CONNECTION ]: (msg, { network }) => {
+    //     network.emit("bounce", Date.now());
+    // },
+    bounce: function(msg, { server }) {
+        console.log(msg);
+        
+        setTimeout(() => {
+            server.sendToAll("bounce", Date.now());
+        }, 1000);
+    },
+});
 
 /**
  * This is a newer way to do the work commonly seen with `bodyParser`
