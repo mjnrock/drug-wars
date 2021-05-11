@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@lespantsfancy/agency@0.7.16":
-  version "0.7.16"
-  resolved "https://registry.yarnpkg.com/@lespantsfancy/agency/-/agency-0.7.16.tgz#486688a4b23484ab55d9c9b56960773e4df2d51a"
-  integrity sha512-7af9VP357SJUFac94fQMTw/UrDpZxqnS8mkqILRDHj+fyIr6dqBDJ6Ve6Wj8VXhbcXj3LRr7QEjT22XrCqKNKQ==
+"@lespantsfancy/agency@0.7.20":
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/@lespantsfancy/agency/-/agency-0.7.20.tgz#654f991d7b1e42dc2f42cf2010bdc158de8986ef"
+  integrity sha512-y108M9TgS+z/d9aCrpHmGSF/wBJttaUn+GxvoZHLH47ifJfQlQho67hmYFFZm5CQAiRMqydPRM0d9rq2VCzUCQ==
   dependencies:
     esm "^3.2.25"
     is-base64 "^1.1.0"

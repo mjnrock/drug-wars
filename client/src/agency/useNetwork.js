@@ -22,10 +22,10 @@ export function useNetwork(network) {
 
         };
         
-        network.ch.default.addHandler(Network.Signals.UPDATE, handler);
+        network.ch.default.addHandler(Network.Signal.UPDATE, handler);
         
         return () => {
-            network.ch.default.removeHandler(Network.Signals.UPDATE, handler);
+            network.ch.default.removeHandler(Network.Signal.UPDATE, handler);
         };
     }, [ network ]);
     

@@ -2,6 +2,7 @@ import { lookup } from "dns";
 import { hostname } from "os";
 import express from "express";
 import expressWs from "express-ws";
+import Agency from "@lespantsfancy/agency";
 import Server from "@lespantsfancy/agency/lib/modules/websocket/Server";
 import QRCode from "@lespantsfancy/agency/lib/modules/qrcode/QRCode";
 
@@ -10,28 +11,25 @@ console.warn("------------ NEW EXECUTION CONTEXT ------------");
 
 const app = express();
 const port = 3001;
+
 const wss = Server.QuickSetup(expressWs(app), {
-    [ Server.Signal.CONNECTION ]: (msg, { network }) => {
-        network.emit("bounce", 1);
-    },
-    bounce: function(msg, { server, network }) {
-        console.log(msg.type, msg.data)
+    // handlers
+}, { state: [] });
 
-        msg.data[ 0 ] = +msg.data[ 0 ] + 1;
-
-        if(Math.random() > 0.5) {
-            network.emit("test", Math.random());
-        }
-
-        setTimeout(() => {
-            server.sendToAll(msg);
-            // server.sendToAll(msg.type, ...msg.data);
-        }, 250);
-    },
-    test: function(msg, { server }) {
-        server.sendToAll(msg);
+const mainnet = new Agency.Event.Network({}, {
+    default: {
+        [ Agency.Event.Network.Signal.UPDATE ]: function(msg, { wss }) {
+            wss.sendToAll("update", wss.state);
+        },
+        click: function(msg, { wss }) {
+            wss.state = [
+                ...wss.state,
+                msg.data,
+            ];
+        },
     },
 });
+wss.join(mainnet, { addSelfToDefaultGlobal: "wss" });
 
 /**
  * This is a newer way to do the work commonly seen with `bodyParser`
@@ -65,7 +63,7 @@ app.use(function (req, res, next) {
  * A basic routing example
  */
 app.get("/", function(req, res, next){
-    console.log("get route", req.testing);
+    res.send('Hello World!')
     res.end();
 });
 
