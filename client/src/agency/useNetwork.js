@@ -19,12 +19,13 @@ export function useNetwork(network) {
             const [ newState ] = data;
 
             setState(newState);
+
         };
         
-        network.ch._internal.addHandler(Network.Signals.UPDATE, handler);
+        network.ch.default.addHandler(Network.Signals.UPDATE, handler);
         
         return () => {
-            network.ch._internal.removeHandler(Network.Signals.UPDATE, handler);
+            network.ch.default.removeHandler(Network.Signals.UPDATE, handler);
         };
     }, [ network ]);
     

@@ -1,19 +1,35 @@
+import { lookup } from "dns";
+import { hostname } from "os";
 import express from "express";
 import expressWs from "express-ws";
-import Server, { QuickSetup as SetupWSServer } from "@lespantsfancy/agency/lib/modules/websocket/Server";
+import Server from "@lespantsfancy/agency/lib/modules/websocket/Server";
+import QRCode from "@lespantsfancy/agency/lib/modules/qrcode/QRCode";
+
+console.clear();
+console.warn("------------ NEW EXECUTION CONTEXT ------------");
 
 const app = express();
 const port = 3001;
-const wss = SetupWSServer(expressWs(app), {
-    // [ Server.Signal.CONNECTION ]: (msg, { network }) => {
-    //     network.emit("bounce", Date.now());
-    // },
-    bounce: function(msg, { server }) {
-        console.log(msg);
-        
+const wss = Server.QuickSetup(expressWs(app), {
+    [ Server.Signal.CONNECTION ]: (msg, { network }) => {
+        network.emit("bounce", 1);
+    },
+    bounce: function(msg, { server, network }) {
+        console.log(msg.type, msg.data)
+
+        msg.data[ 0 ] = +msg.data[ 0 ] + 1;
+
+        if(Math.random() > 0.5) {
+            network.emit("test", Math.random());
+        }
+
         setTimeout(() => {
-            server.sendToAll("bounce", Date.now());
-        }, 1000);
+            server.sendToAll(msg);
+            // server.sendToAll(msg.type, ...msg.data);
+        }, 250);
+    },
+    test: function(msg, { server }) {
+        server.sendToAll(msg);
     },
 });
 
@@ -56,6 +72,14 @@ app.get("/", function(req, res, next){
 /**
  * Start the server
  */
-app.listen(port, () =>
-    console.log(`WebSocket server is listening on port ${ port }!`),
-);
+app.listen(port, () => {
+    console.log(`WebSocket server is listening on port ${ port }!`);
+    
+    
+    lookup(hostname(), (err, ip) => {
+        QRCode.Generator.toString(`http://${ ip }:${ 3000 }`, { type: "terminal" }).then(data => {
+            console.log(`Link to:   http://${ ip }:${ 3000 }`);
+            console.log(data);
+        });
+    });
+});

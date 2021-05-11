@@ -4,10 +4,11 @@
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
-        "@lespantsfancy/agency": "0.7.10",
+        "@lespantsfancy/agency": "0.7.16",
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "express-ws": "^4.0.0",
+        "qrcode": "^1.4.4",
         "ws": "^7.4.5"
     },
     "scripts": {
