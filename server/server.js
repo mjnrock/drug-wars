@@ -3,7 +3,7 @@ import { hostname } from "os";
 import express from "express";
 import expressWs from "express-ws";
 import Agency from "@lespantsfancy/agency";
-import Server from "@lespantsfancy/agency/lib/modules/websocket/Server";
+import WSS from "@lespantsfancy/agency/lib/modules/websocket/Server";
 import QRCode from "@lespantsfancy/agency/lib/modules/qrcode/QRCode";
 
 console.clear();
@@ -12,7 +12,7 @@ console.warn("------------ NEW EXECUTION CONTEXT ------------");
 const app = express();
 const port = 3001;
 
-const wss = Server.QuickSetup(expressWs(app), {
+const wss = WSS.QuickSetup(expressWs(app), {
     // handlers
 }, { state: [] });
 

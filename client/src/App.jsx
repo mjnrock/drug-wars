@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Agency from "@lespantsfancy/agency";
-import BrowserClient from "@lespantsfancy/agency/lib/modules/websocket/BrowserClient";
+import WS from "@lespantsfancy/agency/lib/modules/websocket/Client";
 
 import Routes from "./routes/package";
 
 
 export const Context = React.createContext();
 
-const ws = BrowserClient.QuickSetup({
+const ws = WS.QuickSetup({
     connect: true,
 
     // url: `ws://localhost:3001`,
@@ -21,8 +21,8 @@ const mainnet = new Agency.Event.Network({
     history: [],
 }, {
     default: {
-        "*": msg => console.log(msg.type),
-        [ BrowserClient.Signal.ERROR ]: (msg, { ws }) => {
+        // "*": msg => console.log(msg.type),
+        [ WS.Signal.ERROR ]: (msg, { ws }) => {
             const [ error ] = msg.data;
 
             console.log(error)

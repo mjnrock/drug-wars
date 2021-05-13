@@ -1411,10 +1411,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@lespantsfancy/agency@0.7.20":
-  version "0.7.20"
-  resolved "https://registry.yarnpkg.com/@lespantsfancy/agency/-/agency-0.7.20.tgz#654f991d7b1e42dc2f42cf2010bdc158de8986ef"
-  integrity sha512-y108M9TgS+z/d9aCrpHmGSF/wBJttaUn+GxvoZHLH47ifJfQlQho67hmYFFZm5CQAiRMqydPRM0d9rq2VCzUCQ==
+"@lespantsfancy/agency@0.7.22":
+  version "0.7.22"
+  resolved "https://registry.yarnpkg.com/@lespantsfancy/agency/-/agency-0.7.22.tgz#72cfc31fdfd7f9ff324009f5dc3442499b8c74b5"
+  integrity sha512-mXk/7l7qIPX2OQj93jDMedZetZ3WRlTx3ARGvSMbpQA8ol5ViXREACKDrbYIyZp8ZpZN9aCTnbwMDyL6c46ZlA==
   dependencies:
     esm "^3.2.25"
     is-base64 "^1.1.0"
@@ -6178,6 +6178,11 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+
+isomorphic-ws@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
+  integrity sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
 
 isstream@~0.1.2:
   version "0.1.2"
