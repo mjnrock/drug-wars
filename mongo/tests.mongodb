@@ -1,0 +1,13 @@
+use(`drug-wars`);
+
+db.players.drop();
+
+db.players.updateOne({
+	timestamp: 0,
+}, {
+	$set: {
+		timestamp: 123,
+	}
+}, {
+	upsert: true,
+});

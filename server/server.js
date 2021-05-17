@@ -5,6 +5,11 @@ import expressWs from "express-ws";
 import Agency from "@lespantsfancy/agency";
 import WSS from "@lespantsfancy/agency/lib/modules/websocket/Server";
 import QRCode from "@lespantsfancy/agency/lib/modules/qrcode/QRCode";
+import MongoDB from "mongodb";
+
+const uri = `mongodb://localhost:27017`;
+let mongodb;
+MongoDB.MongoClient.connect(uri, { poolSize: 10, useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => mongodb = db);
 
 console.clear();
 console.warn("------------ NEW EXECUTION CONTEXT ------------");
@@ -16,20 +21,94 @@ const wss = WSS.QuickSetup(expressWs(app), {
     // handlers
 }, { state: [] });
 
+const mongonet = new Agency.Event.Network({}, {
+	default: {
+		player(msg, { upsert, find }) {
+			// find(`players`, { timestamp: { $gt: 0 }}).then(a => console.log(a));
+
+			upsert(`players`, {
+				timestamp: 0,
+			}, {
+				timestamp: Date.now(),
+			});
+		},
+		$globals: {
+			mongo: (commands = []) => {
+				if(!Array.isArray(commands)) {
+					commands = [ commands ];
+				}
+
+				return new Promise((resolve) => {
+					let results = [];
+					mongodb.connect(err => {
+						const db = mongodb.db("drug-wars");
+
+						for(let command of commands) {
+							results.push(command(db));
+						}
+
+						resolve(results);
+					});
+				});
+			},
+			upsert: (collection, filter, update, { isMany = false, ...opts } = {}) => {
+				return new Promise((resolve) => {
+					mongodb.connect(err => {
+						const db = mongodb.db("drug-wars");
+						const coll = db.collection(collection);
+
+						let fn = isMany ? "updateMany" : "updateOne";
+						resolve(coll[ fn ](filter, {
+							$set: update,
+						}, {
+							upsert: true,
+							...opts,
+						}));
+					});
+				});
+			},
+			find: (collection, query) => {
+				return new Promise((resolve) => {
+					mongodb.connect(err => {
+						const db = mongodb.db("drug-wars");
+						const coll = db.collection(collection);
+
+						coll.find(query).toArray((err, result) => {
+							resolve(result);
+						});
+					});
+				});
+			}
+		},
+	},
+});
+
 const mainnet = new Agency.Event.Network({}, {
     default: {
         [ Agency.Event.Network.Signal.UPDATE ]: function(msg, { wss }) {
             wss.sendToAll("update", wss.state);
         },
-        click: function(msg, { wss }) {
+		upsert(msg, { wss }) {
+
+		},
+        click(msg, { wss, network, broadcast }) {
             wss.state = [
                 ...wss.state,
                 msg.data,
             ];
+			
+			broadcast("player", Date.now());
         },
     },
 });
-wss.join(mainnet, { addSelfToDefaultGlobal: "wss" });
+// wss.addConnection(mainnet, { addToDefaultGlobal: "wss" });
+// mainnet.addConnection(mongonet, { addToDefaultGlobal: "mainnet" });
+// wss.addConnection(mainnet, { addSelfToDefaultGlobal: "wss" });
+// mainnet.addConnection(mongonet, { addSelfToDefaultGlobal: "mainnet" });
+mainnet.join(wss, { addSelfToDefaultGlobal: "wss" });
+mongonet.join(mainnet, { addSelfToDefaultGlobal: "mainnet" });
+// mainnet.join(wss, { addToDefaultGlobal: "wss" });
+// mongonet.join(mainnet, { addToDefaultGlobal: "mainnet" });
 
 /**
  * This is a newer way to do the work commonly seen with `bodyParser`
