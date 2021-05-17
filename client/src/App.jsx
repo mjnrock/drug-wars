@@ -18,7 +18,11 @@ const ws = WS.QuickSetup({
 });
 
 const mainnet = new Agency.Event.Network({
-    history: [],
+    history: [
+		Math.random(),
+		Math.random(),
+		Math.random(),
+	],
 }, {
     default: {
         // "*": msg => console.log(msg.type),
