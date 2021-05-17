@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Segment, Message, Table, Header } from "semantic-ui-react";
 import { Context } from "./../App";
 
-import { useContextNetwork } from "./../agency/useNetwork";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 
 export function App() {
     const { state, dispatch } = useContextNetwork(Context, "network");
@@ -59,7 +59,11 @@ export function App() {
 
             <Message info>
                 <Header as="h4">State</Header>
-                { JSON.stringify(state) }
+				<pre>
+					{
+						JSON.stringify(state, null, 2)
+					}
+				</pre>
             </Message>
         </Segment>
     );
