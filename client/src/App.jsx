@@ -46,8 +46,8 @@ const mainnet = new Agency.Event.Network({
 });
 // ws.addConnection(mainnet, { addToDefaultGlobal: "ws" });
 // ws.addConnection(mainnet, { addSelfToDefaultGlobal: "ws" });
-mainnet.join(ws, { addSelfToDefaultGlobal: "ws" });
-// mainnet.join(ws, { addToDefaultGlobal: "ws" });
+// mainnet.join(ws, { addSelfToDefaultGlobal: "ws" });
+mainnet.join(ws, { addToDefaultGlobal: "ws" });
 
 function App() {
     return (

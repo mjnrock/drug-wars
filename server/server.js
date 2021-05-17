@@ -105,10 +105,10 @@ const mainnet = new Agency.Event.Network({}, {
 // mainnet.addConnection(mongonet, { addToDefaultGlobal: "mainnet" });
 // wss.addConnection(mainnet, { addSelfToDefaultGlobal: "wss" });
 // mainnet.addConnection(mongonet, { addSelfToDefaultGlobal: "mainnet" });
-mainnet.join(wss, { addSelfToDefaultGlobal: "wss" });
-mongonet.join(mainnet, { addSelfToDefaultGlobal: "mainnet" });
-// mainnet.join(wss, { addToDefaultGlobal: "wss" });
-// mongonet.join(mainnet, { addToDefaultGlobal: "mainnet" });
+// mainnet.join(wss, { addSelfToDefaultGlobal: "wss" });
+// mongonet.join(mainnet, { addSelfToDefaultGlobal: "mainnet" });
+mainnet.join(wss, { addToDefaultGlobal: "wss" });
+mongonet.join(mainnet, { addToDefaultGlobal: "mainnet" });
 
 /**
  * This is a newer way to do the work commonly seen with `bodyParser`
