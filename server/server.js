@@ -33,7 +33,7 @@ const mongonet = new Agency.Event.Network({}, {
 			});
 		},
 		$globals: {
-			mongo: (commands = []) => {
+			mongo: (commands = [], database = "drug-wars") => {
 				if(!Array.isArray(commands)) {
 					commands = [ commands ];
 				}
@@ -41,20 +41,20 @@ const mongonet = new Agency.Event.Network({}, {
 				return new Promise((resolve) => {
 					let results = [];
 					mongodb.connect(err => {
-						const db = mongodb.db("drug-wars");
+						const db = mongodb.db(database);
 
 						for(let command of commands) {
-							results.push(command(db));
+							results.push(command(db, mongodb));
 						}
 
 						resolve(results);
 					});
 				});
 			},
-			upsert: (collection, filter, update, { isMany = false, ...opts } = {}) => {
+			upsert: (collection, filter, update, { isMany = false, database = "drug-wars", ...opts } = {}) => {
 				return new Promise((resolve) => {
 					mongodb.connect(err => {
-						const db = mongodb.db("drug-wars");
+						const db = mongodb.db(database);
 						const coll = db.collection(collection);
 
 						let fn = isMany ? "updateMany" : "updateOne";
@@ -67,13 +67,13 @@ const mongonet = new Agency.Event.Network({}, {
 					});
 				});
 			},
-			find: (collection, query) => {
+			find: (collection, query, { projection, database = "drug-wars" } = {}) => {
 				return new Promise((resolve) => {
 					mongodb.connect(err => {
-						const db = mongodb.db("drug-wars");
+						const db = mongodb.db(database);
 						const coll = db.collection(collection);
 
-						coll.find(query).toArray((err, result) => {
+						coll.find(query, projection).toArray((err, result) => {
 							resolve(result);
 						});
 					});

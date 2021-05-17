@@ -1,0 +1,4 @@
+use(`drug-wars`);
+
+db.games.drop();
+db.players.drop();
