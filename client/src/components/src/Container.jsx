@@ -1,27 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import React, { useEffect, useState } from "react";
 
-function parseSize(value, parentSize, tileSize) {
-	if(typeof value === "string") {
-		if(value.includes("%")) {
-			value = +(value.replace(/[^0-9.]/i, ""));
-			value /= 100;
-			value *= parentSize;
-			
-			return ~~value;
-		} else {
-			//	Assume it's pixels
-			return ~~(+(value.replace(/[^0-9.]/i, "")));
-		}
-	}
-
-	return value * parentSize / tileSize;
-};
+import { parseSize } from "./Screen";
 
 export function Container(props) {
 	const ref = React.createRef();
 	
-	let { children, scope = {}, id, x, y, z, w, h, size: parentSize, pos = [], tile = [ 1, 1 ], mergeStyle = true, style = {}, classes = [] } = props;
+	let { children, scope = {}, id, x, y, z = 0, w, h, size: parentSize, pos = [], tile = [ 1, 1 ], mergeStyle = true, style = {}, classes = [] } = props;
 	const [ size, setSize ] = useState(parentSize);
 
 	if(pos.length) {

@@ -2,12 +2,20 @@ import { v4 as uuidv4 } from "uuid";
 import React, { useEffect, useState } from "react";
 import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 
-import { Context } from "./../App";
+import { Context } from "../../App";
+
+export function parseSize(value, parentSize, tileSize) {
+	if(typeof value === "string") {
+		return `calc(${ value })`;
+	}
+
+	return value * parentSize / tileSize;
+};
 
 export function Screen(props) {
     const { state, dispatch } = useContextNetwork(Context, "network");
 
-	let { children, id, z, style = {}, classes = [] } = props;
+	let { children, id, z = 0, tile = [ 1, 1 ], style = {}, classes = [] } = props;
 
 	const [ size, setSize ] = useState([ window.innerWidth, window.innerHeight ]);
 
@@ -22,6 +30,7 @@ export function Screen(props) {
 			return React.cloneElement(child, {
 				scope: state,
 				size,
+				tile,
 				// Add props here
 			});
 		}
