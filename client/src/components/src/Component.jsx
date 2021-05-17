@@ -34,7 +34,7 @@ export function Component(props) {
 				height,
 			]);
 		}
-	}, [ parentSize ]);
+	}, [ ref, size, parentSize ]);
 
 	return (
 		<div

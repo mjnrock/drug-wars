@@ -34,7 +34,7 @@ export function Container(props) {
 				height,
 			]);
 		}
-	}, [ parentSize ]);
+	}, [ ref, size, parentSize ]);
 
 	const childs = React.Children.map(children, child => {
 		if (React.isValidElement(child)) {
