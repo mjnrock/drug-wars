@@ -1,17 +1,17 @@
 import React from "react";
 import { Table } from "semantic-ui-react";
 
-import Util from "./src/package";
+import ViewPort from "./src/package";
 
 export function Overview() {
 	return (
-		<Util.Screen
+		<ViewPort.Screen
 			tile={[ 5, 5 ]}
 		>
-			<Util.Container
+			<ViewPort.Container
 				pos={[ 0, 0, "100%", "100%", 0 ]}
 			>
-				<Util.Component>
+				<ViewPort.Component>
 					<Table>
 						<Table.Header>
 							<Table.Row>
@@ -62,9 +62,9 @@ export function Overview() {
 							</Table.Row>
 						</Table.Body>
 					</Table>
-				</Util.Component>
-			</Util.Container>
-		</Util.Screen>
+				</ViewPort.Component>
+			</ViewPort.Container>
+		</ViewPort.Screen>
 	)
 };
 
