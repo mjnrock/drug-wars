@@ -9,7 +9,7 @@ export function Overview() {
 			tile={[ 5, 5 ]}
 		>
 			<ViewPort.Container
-				pos={[ 0, 0, "100%", "100%", 0 ]}
+				pos={[ 3, 3, "100%", "100%", 0 ]}
 			>
 				<ViewPort.Component>
 					<Table>
